@@ -20,7 +20,7 @@ jobs:
       - name: PSScriptAnalyzer (errors fail the build)
         shell: pwsh
         run: |
-          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          if (-not (Get-Module -ListAvailable PSScriptAnalyzer)) { Install-Module PSScriptAnalyzer -Force -Scope CurrentUser }
           $issues = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error
           $issues | Format-Table RuleName, ScriptName, Line, Message -AutoSize
           if ($issues) { exit 1 }
