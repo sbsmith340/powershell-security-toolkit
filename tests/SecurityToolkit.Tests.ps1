@@ -23,7 +23,8 @@ Describe 'Get-ServerSupportStatus' {
 Describe 'ConvertTo-OSInventoryRecord' {
     It 'normalizes a CIM-like object and computes uptime' {
         $os = [pscustomobject]@{ Caption = 'Microsoft Windows Server 2019 Standard'; Version = '10.0.17763'; BuildNumber = '17763'; LastBootUpTime = [datetime]'2026-10-01' }
-        $r = $os | ConvertTo-OSInventoryRecord -ComputerName 'SRV01' -AsOf $AsOf
+        $server = 'SRV01'
+        $r = $os | ConvertTo-OSInventoryRecord -ComputerName $server -AsOf $AsOf
         $r.Product | Should -Be 'Windows Server 2019'
         $r.SupportStatus | Should -Be 'Supported'
         $r.UptimeDays | Should -Be 20
